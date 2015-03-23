@@ -3,10 +3,17 @@
 #include <fcntl.h>
 #include <unistd.h>
 #include <linux/joystick.h>
+#include <string>
+
+//#include <iostream>
 
 #define JOY_DEV "/dev/input/js0" //device to read
 
 using namespace std;
+
+string state(int);
+bool change = false;
+string temp;
 
 int main()
 {
@@ -33,7 +40,8 @@ int main()
 	do
 	{
 
-			///read the joystick state
+
+            	///read the joystick state
 		read(joy_fd, &js, sizeof(struct js_event));
 
 			///see what to do with the event
@@ -48,12 +56,22 @@ int main()
 		}
 
 
-        sleep(0.5);
-        if(axis[0] > 10000)
-            system("xrandr -o right");
-        else if(axis[0] < -10000)
-            system("xrandr -o left");
-        else system("xrandr -o normal");
+        //cout << state(axis[0]);
+
+        while(temp == state(axis[0]))
+        {
+            temp = state(axis[0]);
+            sleep(1);
+        }
+
+
+            if(state(axis[0]) == "right")
+                system("xrandr -o right");
+            else if(state(axis[0]) == "left")
+                system("xrandr -o left");
+            else if(state(axis[0]) == "normal")
+                system("xrandr -o normal");
+
 
 
 	}while(1==1);
@@ -61,3 +79,18 @@ int main()
 	close( joy_fd );
 	return 0;
 }
+
+string state(int axis)
+{
+
+
+    if(axis > 10000)
+            return "right";
+
+    else if(axis < -10000)
+            return "left";
+
+    else return "normal";
+
+}
+
