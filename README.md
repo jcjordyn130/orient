@@ -1,6 +1,8 @@
 # Orient
 c++ program to automatically change screen orientation based on accelerometer data
-* Requires xrandr
+* Requires xrandr ````sudo apt-get install xrandr````
+* Tested on Ubuntu 14.04
+* Should work on any linux distro running Xorg
 
 ## Compatibility
 * HP Envy x360 - 15-u010dx
