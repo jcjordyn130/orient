@@ -5,7 +5,6 @@
 #include <linux/joystick.h>
 #include <string>
 
-//#include <iostream>
 
 #define JOY_DEV "/dev/input/js0" //device to read
 
@@ -56,23 +55,38 @@ int main()
 		}
 
 
-        //cout << state(axis[0]);
+        temp = state(axis[0]);
+    do
+    {
 
-        while(temp == state(axis[0]))
-        {
-            temp = state(axis[0]);
-            sleep(1);
-        }
+    ////////////////////
+        	///read the joystick state
+		read(joy_fd, &js, sizeof(struct js_event));
 
+			///see what to do with the event
+		switch (js.type & ~JS_EVENT_INIT)
+		{
+			case JS_EVENT_AXIS:
+				axis   [ js.number ] = js.value;
+				break;
+			case JS_EVENT_BUTTON:
+				button [ js.number ] = js.value;
+				break;
+		}
+    ////////////////////
 
-            if(state(axis[0]) == "right")
-                system("xrandr -o right");
-            else if(state(axis[0]) == "left")
-                system("xrandr -o left");
-            else if(state(axis[0]) == "normal")
-                system("xrandr -o normal");
+        usleep(10);
+        if(temp != state(axis[0]))
+            change = true;
 
+    }while(!change);
 
+    if(state(axis[0]) == "right")
+        system("xrandr -o right");
+    else if(state(axis[0]) == "left")
+        system("xrandr -o left");
+    else if(state(axis[0]) == "normal")
+        system("xrandr -o normal");
 
 	}while(1==1);
 
@@ -82,7 +96,6 @@ int main()
 
 string state(int axis)
 {
-
 
     if(axis > 10000)
             return "right";
