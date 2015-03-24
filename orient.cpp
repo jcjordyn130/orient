@@ -81,7 +81,9 @@ int main()
 
     }while(!change);
 
-    if(state(axis[0]) == "right")
+    if(state(axis[1]) == "right")
+        system("xrandr -o inverted");
+    else if(state(axis[0]) == "right")
         system("xrandr -o right");
     else if(state(axis[0]) == "left")
         system("xrandr -o left");
