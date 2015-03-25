@@ -17,3 +17,8 @@ git clone https://github.com/leszakk/orient.git
 g++ ~/orient/orient.cpp -o ~/orient/orient
 ~/orient/orient
 ````
+
+## Future
+* Daemon mode
+* Read from config file
+* Seperate laptop, tablet, and convertible modes
