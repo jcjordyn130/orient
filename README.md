@@ -22,3 +22,4 @@ g++ ~/orient/orient.cpp -o ~/orient/orient
 * Daemon mode
 * Read from config file
 * Seperate laptop, tablet, and convertible modes
+* More precision using all accelerometers to minimize accidental rotations
