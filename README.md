@@ -7,6 +7,7 @@ c++ program to automatically change screen orientation based on accelerometer da
 ## Compatibility
 * HP Envy x360 - 15-u010dx
 * HP Envy - 15t slim quad
+* HP Pavillion 15 Gaming
 * Other HP devices?
 * If your device has an accelerometer and does not work, please send me the details and I will try to add compatilbility 
 
@@ -22,4 +23,4 @@ g++ ~/orient/orient.cpp -o ~/orient/orient
 * Daemon mode
 * Read from config file
 * Seperate laptop, tablet, and convertible modes
-* More precision using all accelerometers to minimize accidental rotations
+* More precision using all accelerometer axes to minimize accidental rotations
