@@ -5,39 +5,54 @@
 #include <linux/joystick.h>
 #include <string>
 
-
-#define JOY_DEV "/dev/input/js0" //device to read
+#define JOY_DEV "/dev/input/js0"
 
 using namespace std;
 
-string state(int);
-bool change = false;
-string temp;
+class orient {
+public:
+    orient();
+private:
+    bool change = false;
+    int state(int);
+    int temp = 0;
+
+};
 
 int main()
 {
-	int joy_fd, *axis=NULL, num_of_axis=0, num_of_buttons=0, x;
-	char *button=NULL, name_of_joystick[80];
-	struct js_event js;
+    orient start;
+    return 0;
+}
 
-	if( ( joy_fd = open( JOY_DEV , O_RDONLY)) == -1 )
-	{
-		printf( "Couldn't open joystick\n" );
-		return -1;
-	}
+orient::orient()
+{
+        int joy_fd, *axis=NULL, num_of_axis=0, num_of_buttons=0, x;
+        char *button=NULL, name_of_joystick[80];
+        struct js_event js;
 
-	ioctl( joy_fd, JSIOCGAXES, &num_of_axis );
-	ioctl( joy_fd, JSIOCGBUTTONS, &num_of_buttons );
-	ioctl( joy_fd, JSIOCGNAME(80), &name_of_joystick );
-
-	axis = (int *) calloc( num_of_axis, sizeof( int ) );
-	button = (char *) calloc( num_of_buttons, sizeof( char ) );
-
-
-	fcntl( joy_fd, F_SETFL, O_NONBLOCK );
 
 	do
 	{
+
+
+
+        if( ( joy_fd = open( JOY_DEV , O_RDONLY)) == -1 )
+        {
+            printf( "Couldn't open joystick\n" );
+        }
+
+        ioctl( joy_fd, JSIOCGAXES, &num_of_axis );
+        ioctl( joy_fd, JSIOCGBUTTONS, &num_of_buttons );
+        ioctl( joy_fd, JSIOCGNAME(80), &name_of_joystick );
+
+        axis = (int *) calloc( num_of_axis, sizeof( int ) );
+        button = (char *) calloc( num_of_buttons, sizeof( char ) );
+
+
+        fcntl( joy_fd, F_SETFL, O_NONBLOCK );
+
+
 
 
             	///read the joystick state
@@ -55,57 +70,57 @@ int main()
 		}
 
 
-        temp = state(axis[0]);
-    do
+
+
+
+
+
+    ////////////////////
+    ///read the joystick state
+    read(joy_fd, &js, sizeof(struct js_event));
+        ///see what to do with the event
+    switch (js.type & ~JS_EVENT_INIT)
     {
-
+        case JS_EVENT_AXIS:
+            axis   [ js.number ] = js.value;
+            break;
+        case JS_EVENT_BUTTON:
+            button [ js.number ] = js.value;
+            break;
+    }
     ////////////////////
-        	///read the joystick state
-		read(joy_fd, &js, sizeof(struct js_event));
+    usleep(10000);
+    if(temp != state(axis[0]))
+        change = true;
+    else change = false;
 
-			///see what to do with the event
-		switch (js.type & ~JS_EVENT_INIT)
-		{
-			case JS_EVENT_AXIS:
-				axis   [ js.number ] = js.value;
-				break;
-			case JS_EVENT_BUTTON:
-				button [ js.number ] = js.value;
-				break;
-		}
-    ////////////////////
+    if(change)
+    {
+        if(state(axis[0]) == 1)
+            system("xrandr -o right");
+        else if(state(axis[0]) == 2)
+            system("xrandr -o left");
+        else if(state(axis[0]) == 0)
+            system("xrandr -o normal");
+    }
+    temp = state(axis[0]);
 
-        usleep(10);
-        if(temp != state(axis[0]))
-            change = true;
-
-    }while(!change);
-
-    if(state(axis[1]) == "right")
-        system("xrandr -o inverted");
-    else if(state(axis[0]) == "right")
-        system("xrandr -o right");
-    else if(state(axis[0]) == "left")
-        system("xrandr -o left");
-    else if(state(axis[0]) == "normal")
-        system("xrandr -o normal");
+    close( joy_fd );
+    delete axis;
+    delete button;
 
 	}while(1==1);
 
-	close( joy_fd );
-	return 0;
+
 }
 
-string state(int axis)
+int orient::state(int axis)
 {
+    if(axis > 10000) //right
+            return 1;
 
-    if(axis > 10000)
-            return "right";
+    else if(axis < -10000) //left
+            return 2;
 
-    else if(axis < -10000)
-            return "left";
-
-    else return "normal";
-
+    else return 0;
 }
-
