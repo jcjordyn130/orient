@@ -1,7 +1,7 @@
 # Orient
 c++ program to automatically change screen orientation based on accelerometer data
 * Requires xrandr ````sudo apt-get install xrandr````
-* Tested on Ubuntu 14.04
+* Tested on Ubuntu 14.04 and 16.04
 * Should work on any linux distro running Xorg
 
 ## Compatibility
