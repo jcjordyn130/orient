@@ -19,9 +19,25 @@ int main(void)
     int axis_value_1;
 
     struct js_event js;
+    //const char *schema_id = "org.gnome.settings-daemon.plugins.orientation";
 
-    const char *schema_id = "apps.orient";
-    GSettings *settings = g_settings_new (schema_id);
+
+    //checks if gnome-shell orientation plugin is activated
+    GSettings *settings = g_settings_new("org.gnome.settings-daemon.plugins.orientation");
+    char *name = "";
+    if(g_settings_get_boolean(settings, "active"))
+    {
+        name = "orientation-lock";
+        settings = g_settings_new ("org.gnome.settings-daemon.peripherals.touchscreen");
+        printf("Gnome-Shell integration enabled\n");
+    }
+    else
+    {
+        name = "enable-autorotate";
+        settings = g_settings_new ("apps.orient");
+        printf("Gnome-Shell integration disabled\n");
+    }
+
 
     if ((joy_fd = open( JOY_DEV , O_RDONLY)) == -1)
     {
@@ -39,11 +55,13 @@ int main(void)
 
     while (1)
     {
-        bool autorotate_enabled = g_settings_get_boolean(settings, "enable-autorotate");
+        bool autorotate_enabled = g_settings_get_boolean(settings, name);
+        //bool autorotate_enabled = g_settings_get_boolean(settings, "enable-autorotate");
 
-        if (autorotate_enabled == true)
+        if (!autorotate_enabled)
         {
             //read the joystick state
+            //printf("unlocked\n");
             read(joy_fd, &js, sizeof(struct js_event));
 
             // update the axis value array with the new value
@@ -61,7 +79,7 @@ int main(void)
                 system("xrandr -o inverted");
 
                 // disable the touchpad when inverted
-		set_touchpad_sate("OFF");
+		        set_touchpad_sate("OFF");
             }
             else if (axis_value_0 > 10000)
             {
@@ -69,7 +87,7 @@ int main(void)
                 system("xrandr -o right");
 
                 // disable the touchpad
-		set_touchpad_sate("OFF");
+		        set_touchpad_sate("OFF");
             }
             else if (axis_value_0 < -10000)
             {
@@ -77,7 +95,7 @@ int main(void)
                 system("xrandr -o left");
 
                 // disable the touchpad
-		set_touchpad_sate("OFF");
+		        set_touchpad_sate("OFF");
             }
             else
             {
@@ -85,12 +103,19 @@ int main(void)
                 system("xrandr -o normal");
 
                 // enable the touchpad when in normal mode
-		set_touchpad_sate("ON");
+		        set_touchpad_sate("ON");
             }
+            // 50 millisecond delay
+            usleep(1000 * 1000);
+        }
+        else
+        {
+            //printf("locked\n");
+            // 1 second delay
+            usleep(1000 * 1000);
         }
 
-        // 100 millisecond delay
-        usleep(100 * 1000);
+
     }
 
     close(joy_fd);
