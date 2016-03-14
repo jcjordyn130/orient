@@ -1,9 +1,13 @@
 # Orient
-This application will automatically change screen orientation and disable/enable
-the touchpad based on accelerometer data.
+This application will automatically change screen orientation for gnome shell and other desktop environments
+* Disables touchpad when rotated
+* Rotation can be locked with button in Gnome Shell
+* Automatically starts after login
 
 ###Compatibility
 * HP Envy x360 - 15-u010dx
+* HP Envy - 15t slim quad
+* HP Pavillion 15 Gaming Laptop
 
 ###Package Requirements
 * X11 for xinput and xrandr
@@ -16,48 +20,34 @@ make
 
 ````
 
-###Manual Building
-To manually build the application using gcc.
-````bash
-gcc `pkg-config --cflags gtk+-3.0` -o bin/orient src/orient.c src/touchpad.c `pkg-config --libs gtk+-3.0`
-
-````
-
-###Building the Schema for GSettings
-Make sure to do this step or the application will not start
-````bash
-sudo cp schemas/apps.orient.gschema.xml /usr/share/glib-2.0/schemas/
-sudo glib-compile-schemas /usr/share/glib-2.0/schemas/
-
-````
-
 ###Installing the application
-Use the provided install.sh or to manually install run the commands below
+To install run:
 ````bash
-sudo mkdir /opt/orient
-sudo cp bin/orient
-sudo cp orient.desktop /usr/share/applications/
-cp orient.desktop $HOME/.config/autostart/
+sudo make install
 
 ````
 
-###Autostarting with the user interface
-Copy the orient.desktop to $HOME/.config/autostart
+To remove run
 ````bash
-cp orient.desktop $HOME/.config/autostart/
+sudo make uninstall
 
 ````
 
-###Disabling Auto Rotation
-To disable orient auto rotation run the commando below.
+###Locking Orientation
+
+####With Gnome Shell
+run `gsettings set org.gnome.settings-daemon.plugins.orientation active true` to enable the lock button. in the top right corner
+
+####With other desktop environment
+To lock in current orientation, run the commando below.
 ````bash
-gsettings set apps.orient enable-autorotate false
+gsettings set apps.orient lock-orientation true
 
 ````
 
-To disable orient auto rotation run the command below.
+To disable orientation lock, run the command below.
 ````bash
-gsettings set apps.orient enable-autorotate true
+gsettings set apps.orient lock-orientation false
 
 ````
 
@@ -65,7 +55,7 @@ gsettings set apps.orient enable-autorotate true
 * Seperate laptop, tablet, and convertible mode
 * More precision using all accelerometers to minimize accidental rotations
 * Gnome shell extention that exposes the gsettings and indicates if the
-  application is running.
+  application is running
 * Create a AUR package
 * Create a ubuntu and debian package
 * Wayland support
