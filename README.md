@@ -37,7 +37,7 @@ sudo make uninstall
 ###Locking Orientation
 
 #####With Gnome Shell
-run this to enable the lock button in the top right corner menu of gnome shell
+Run this to enable the lock button in the top right corner menu of gnome shell
 ````bash
 gsettings set org.gnome.settings-daemon.plugins.orientation active true
 ````
