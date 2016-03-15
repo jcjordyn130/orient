@@ -16,6 +16,7 @@ This application will automatically change screen orientation for gnome shell an
 ###Building
 Run make in the cloned directory
 ````bash
+cd ./orient/
 make
 
 ````
@@ -35,10 +36,13 @@ sudo make uninstall
 
 ###Locking Orientation
 
-####With Gnome Shell
-run `gsettings set org.gnome.settings-daemon.plugins.orientation active true` to enable the lock button. in the top right corner
+#####With Gnome Shell
+Run this to enable the lock button in the top right corner menu of gnome shell
+````bash
+gsettings set org.gnome.settings-daemon.plugins.orientation active true
+````
 
-####With other desktop environment
+#####With other desktop environment
 To lock in current orientation, run the commando below.
 ````bash
 gsettings set apps.orient lock-orientation true
