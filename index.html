@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="UTF-8">
+    <title>Orient by leszakk</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="stylesheets/normalize.css" media="screen">
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
+  </head>
+  <body>
+    <section class="page-header">
+      <h1 class="project-name">Orient</h1>
+      <h2 class="project-tagline">c++ program to automatically change screen orientation based on accelerometer data</h2>
+      <a href="https://github.com/leszakk/orient" class="btn">View on GitHub</a>
+      <a href="https://github.com/leszakk/orient/zipball/master" class="btn">Download .zip</a>
+      <a href="https://github.com/leszakk/orient/tarball/master" class="btn">Download .tar.gz</a>
+    </section>
+
+    <section class="main-content">
+      <h1>
+<a id="orient" class="anchor" href="#orient" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Orient</h1>
+
+<p>This application will automatically change screen orientation for gnome shell and other desktop environments</p>
+
+<ul>
+<li>Disables touchpad when rotated</li>
+<li>Rotation can be locked with button in Gnome Shell</li>
+<li>Automatically starts after login</li>
+</ul>
+
+<h3>
+<a id="compatibility" class="anchor" href="#compatibility" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Compatibility</h3>
+
+<ul>
+<li>HP Envy x360 - 15-u010dx</li>
+<li>HP Envy - 15t slim quad</li>
+<li>HP Pavillion 15 Gaming Laptop</li>
+</ul>
+
+<h3>
+<a id="package-requirements" class="anchor" href="#package-requirements" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Package Requirements</h3>
+
+<ul>
+<li>X11 for xinput and xrandr</li>
+<li>gio for gsettings</li>
+</ul>
+
+<h3>
+<a id="building" class="anchor" href="#building" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Building</h3>
+
+<p>Run make in the cloned directory</p>
+
+<div class="highlight highlight-source-shell"><pre><span class="pl-c1">cd</span> ./orient/
+make
+</pre></div>
+
+<h3>
+<a id="installing-the-application" class="anchor" href="#installing-the-application" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installing the application</h3>
+
+<p>To install run:</p>
+
+<div class="highlight highlight-source-shell"><pre>sudo make install
+</pre></div>
+
+<p>To remove run</p>
+
+<div class="highlight highlight-source-shell"><pre>sudo make uninstall
+</pre></div>
+
+<h3>
+<a id="locking-orientation" class="anchor" href="#locking-orientation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Locking Orientation</h3>
+
+<h5>
+<a id="with-gnome-shell" class="anchor" href="#with-gnome-shell" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>With Gnome Shell</h5>
+
+<p>Run this to enable the lock button in the top right corner menu of gnome shell</p>
+
+<div class="highlight highlight-source-shell"><pre>gsettings <span class="pl-c1">set</span> org.gnome.settings-daemon.plugins.orientation active <span class="pl-c1">true</span></pre></div>
+
+<h5>
+<a id="with-other-desktop-environment" class="anchor" href="#with-other-desktop-environment" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>With other desktop environment</h5>
+
+<p>To lock in current orientation, run the commando below.</p>
+
+<div class="highlight highlight-source-shell"><pre>gsettings <span class="pl-c1">set</span> apps.orient lock-orientation <span class="pl-c1">true</span>
+</pre></div>
+
+<p>To disable orientation lock, run the command below.</p>
+
+<div class="highlight highlight-source-shell"><pre>gsettings <span class="pl-c1">set</span> apps.orient lock-orientation <span class="pl-c1">false</span>
+</pre></div>
+
+<h3>
+<a id="todo" class="anchor" href="#todo" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Todo</h3>
+
+<ul>
+<li>Seperate laptop, tablet, and convertible mode</li>
+<li>More precision using all accelerometers to minimize accidental rotations</li>
+<li>Gnome shell extention that exposes the gsettings and indicates if the
+application is running</li>
+<li>Create a AUR package</li>
+<li>Create a ubuntu and debian package</li>
+<li>Wayland support</li>
+</ul>
+
+      <footer class="site-footer">
+        <span class="site-footer-owner"><a href="https://github.com/leszakk/orient">Orient</a> is maintained by <a href="https://github.com/leszakk">leszakk</a>.</span>
+
+        <span class="site-footer-credits">This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the <a href="https://github.com/jasonlong/cayman-theme">Cayman theme</a> by <a href="https://twitter.com/jasonlong">Jason Long</a>.</span>
+      </footer>
+
+    </section>
+
+  
+  </body>
+</html>
