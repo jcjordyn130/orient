@@ -7,13 +7,14 @@ CC=gcc	-g	-Wall
 all:	app
 
 app:	$(FILES)
-	$(CC)	$(CFLAGS)	-o	bin/$(APPNAME)	$(FILES)	$(GTKFLAGS)
+	mkdir build build/bin
+	$(CC)	$(CFLAGS)	-o	build/bin/$(APPNAME)	$(FILES)	$(GTKFLAGS)
 
 clean:
 	rm -rf build/
 
 install:
-	cp build/bin/orient /usr/bin/orient/
+	cp build/bin/orient /usr/bin
 	cp schemas/apps.orient.gschema.xml /usr/share/glib-2.0/schemas/
 	glib-compile-schemas /usr/share/glib-2.0/schemas/
 	cp orient.desktop /usr/share/applications/
