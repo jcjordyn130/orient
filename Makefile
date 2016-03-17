@@ -10,20 +10,21 @@ app:	$(FILES)
 	$(CC)	$(CFLAGS)	-o	bin/$(APPNAME)	$(FILES)	$(GTKFLAGS)
 
 clean:
-	/bin/rm	-rf	bin/$(NAME);
+	rm -rf build/
 
 install:
-	mkdir /opt/orient/
-	cp bin/orient /opt/orient/
+	cp build/bin/orient /usr/bin/orient/
 	cp schemas/apps.orient.gschema.xml /usr/share/glib-2.0/schemas/
 	glib-compile-schemas /usr/share/glib-2.0/schemas/
-	cp orient.desktop ~/.config/autostart/
 	cp orient.desktop /usr/share/applications/
+	cp orient.service /lib/systemd/system/
+	cp orient.conf /etc/init/
 
 uninstall:
-	rm -rf /opt/orient/
+	rm -rf /usr/bin/orient
 	rm -f /usr/share/glib-2.0/schemas/app.orient.gschema.xml
-	rm -f ~/.config/autostart/orient.desktop
 	rm -f /usr/share/applications/orient.desktop
+	rm -f /lib/systemd/system/orient.service
+	rm -f /etc/init/orient.conf
 	glib-compile-schemas /usr/share/glib-2.0/schemas/
 

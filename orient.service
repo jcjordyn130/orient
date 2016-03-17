@@ -1,0 +1,12 @@
+[Unit]
+Description=Systemd service for orient
+Documentation=man:orient(1)
+
+[Service]
+Type=forking
+Environment=statedir=/var/cache/orient
+ExecStartPre=/usr/bin/mkdir -p ${statedir}
+ExecStart=/usr/bin/orient --statedir ${statedir}
+
+[Install]
+WantedBy=multi-user.target
